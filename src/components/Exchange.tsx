@@ -6,16 +6,12 @@ type Currency = {
 }
 
 export class Exchange extends React.Component<Currency, any> {
-    constructor(props: Currency) {
-        super(props);
-    }
-
     render() {
         return (
-            <div>
-                <h2>{this.props.currency}</h2>
-                <CurrencyField currency={this.props.currency} type="buy"/>
-                <CurrencyField currency={this.props.currency} type="sell"/>
+            <div className={"exchange"}>
+                <h2 className={"exchange-title"}>{this.props.currency.toLocaleUpperCase()}</h2>
+                <CurrencyField currency={this.props.currency} buyOrSell="buy"/>
+                <CurrencyField currency={this.props.currency} buyOrSell="sell"/>
             </div>
         )
     }

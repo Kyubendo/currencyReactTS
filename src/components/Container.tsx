@@ -5,10 +5,11 @@ export class Container extends React.Component<any, any> {
 
     render() {
         return (
-            <>
-                <Exchange currency={"USD"}/>
-                <Exchange currency={"EUR"}/>
-            </>
+            <div className={"container"}>
+                <Exchange currency={"usd"}/>
+                <Exchange currency={"eur"}/>
+                <Exchange currency={"rub"}/>
+            </div>
         )
     }
 }

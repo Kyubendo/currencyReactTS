@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css?family=Abel&display=swap');
+
+* {
+    /*margin: 0;*/
+    /*padding: 0;*/
+    font-size: 110%;
+    font-family: "Abel";
+}
+
+p {
+
+}
+
+body {
+    background-color: #222;
+    color: #ccc;
+}
+
+.exchange {
+    border: 3px solid black;
+    border-radius: 8%;
+    padding: 0 30px 10px 30px;
+    background-color: #333;
+    margin-top: 80px;
+}
+
+.exchange-title {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
+}

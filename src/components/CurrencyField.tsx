@@ -1,34 +1,62 @@
 import * as React from "react";
 import * as cheerio from "cheerio";
-import * as request from "request";
+import axios from 'axios'
 
-const $ = cheerio.load("https://гривна.online");
-type CurrencyInput = {
-    currency: string;
-    type: string;
+const currencyTypes: {[index: string]:any} = {usd: '1', eur: '2', rub: '3'};
+const buyOrSellTypes: {[index: string]:any} = {buy: '2', sell: '3'};
+
+type curr = {
+    usd: string;
+    eur: string;
+    rub: string;
 }
 
-request({
-    method: 'GET',
-    url: 'https://гривна.online'
-}, (err: any, res: any, body: any) => {
+type Props = {
+    currency: string;
+    buyOrSell: string;
+}
 
-    if (err) return console.error(err);
+type State = {
+    value: string;
+}
 
-    let $ = cheerio.load(body);
 
-    let title = $('title');
+export class CurrencyField extends React.Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        axios
+            .get('https://finance.ua/ua/currency', {
+                headers: {
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+            .then(res => {
+                const $ = cheerio.load(res.data);
+                const value = $(`.b-market-table_currency-cash .major:nth-child(${
+                    currencyTypes[this.props.currency]
+                    }) .c${buyOrSellTypes[this.props.buyOrSell]}`);
+                this.setState({value: value.text()});
+            })
+            .catch(err => console.log(err));
 
-    console.log(title.text());
-});
+        this.buyOrSell = this.buyOrSell.bind(this)
+    }
 
-export class CurrencyField extends React.Component<CurrencyInput, any> {
-    
+    buyOrSell() {
+        const text = this.props.buyOrSell;
+        return (text.charAt(0).toUpperCase() + text.slice(1))
+    }
+
+
     render() {
+        let value = 'Loading..';
+        if (this.state) value = this.state.value;
+
+
+
         return (
             <>
-                <h1>{$('title').toArray()}</h1>
-                <p>{this.props.type} -- {this.props.currency}333</p>
+                <p>{this.buyOrSell()} &mdash; {value}</p>
             </>
         )
     }
