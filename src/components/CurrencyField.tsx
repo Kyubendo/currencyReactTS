@@ -2,8 +2,8 @@ import * as React from "react";
 import * as cheerio from "cheerio";
 import axios from 'axios'
 
-const currencyTypes: {[index: string]:any} = {usd: '1', eur: '2', rub: '3'};
-const buyOrSellTypes: {[index: string]:any} = {buy: '2', sell: '3'};
+const currencyTypes: { [index: string]: any } = {usd: '1', eur: '2', rub: '3'};
+const buyOrSellTypes: { [index: string]: any } = {buy: '2', sell: '3'};
 
 type curr = {
     usd: string;
@@ -25,9 +25,9 @@ export class CurrencyField extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
         axios
-            .get('https://finance.ua/ua/currency', {
+            .get('https://cors-anywhere.herokuapp.com/https://finance.ua/ua/currency', {
                 headers: {
-                    'Access-Control-Allow-Origin': '*'
+                    'Access-Control-Allow-Origin': '*',
                 }
             })
             .then(res => {
@@ -38,10 +38,7 @@ export class CurrencyField extends React.Component<Props, State> {
                 this.setState({value: value.text()});
             })
             .catch(err => console.log(err));
-
-        this.buyOrSell = this.buyOrSell.bind(this)
     }
-
     buyOrSell() {
         const text = this.props.buyOrSell;
         return (text.charAt(0).toUpperCase() + text.slice(1))
@@ -51,7 +48,6 @@ export class CurrencyField extends React.Component<Props, State> {
     render() {
         let value = 'Loading..';
         if (this.state) value = this.state.value;
-
 
 
         return (
